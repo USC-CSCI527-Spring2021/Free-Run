@@ -101,6 +101,7 @@ class MobileNetV3_Large(nn.Module):
         self.hs3 = hswish()
         self.linear4 = nn.Linear(1280, 1024)
         self.linear4 = nn.Linear(1024, 512)
+        self.bn4 = nn.BatchNorm1d(512)
         self.hs3 = hswish()
         self.linear5 = nn.Linear(512, 256)
         self.hs4 = hswish()
@@ -186,6 +187,8 @@ class MobileNetV3_Small(nn.Module):
         out = out.view(out.size(0), -1)
         out = self.hs3(self.bn3(self.linear3(out)))
         out = self.linear4(out)
+        out = self.hs4(self.bn4(self.linear5(out)))
+        out = self.linear6(out)
         return out
 
 
